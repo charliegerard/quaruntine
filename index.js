@@ -233,7 +233,7 @@ document.getElementsByClassName("options")[0].onclick = () => {
   sound.play();
   initVideo();
 
-  document.getElementsByTagName("main")[0].classList.add("fade-out");
+  document.getElementsByClassName("intro-block")[0].classList.add("fade-out");
   document.getElementById("player").style.display = "block";
   document.getElementById("ThreeJS").style.display = "none";
   realForestSelected = true;
@@ -248,7 +248,7 @@ document.getElementsByClassName("options")[1].onclick = () => {
   document.getElementById("ThreeJS").style.display = "block";
   document.getElementById("player").style.display = "none";
 
-  document.getElementsByTagName("main")[0].style.display = "none";
+  document.getElementsByClassName("intro-block")[0].style.display = "none";
   virtualForestSelected = true;
 };
 

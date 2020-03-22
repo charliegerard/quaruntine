@@ -15,7 +15,7 @@ body {
   );
 }
 
-main {
+.intro-block {
   background-image: url("quaruntine.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -140,4 +140,42 @@ canvas#output {
 canvas {
   width: 100%;
   height: 100%;
+}
+.mobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .mobile {
+    background-image: url("quaruntine.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile h1 {
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 2em;
+    font-family: "Raleway", Arial;
+  }
+
+  .mobile .intro .content {
+    width: 80%;
+  }
+
+  .desktop {
+    display: none;
+  }
 }

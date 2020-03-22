@@ -17,40 +17,56 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main>
+    <main class="mobile">
       <section class="intro">
         <section class="content">
           <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
-          <p id="intro-text" style="display: none">
-            Choose between the real or virtual trail, place yourself in front of
-            your webcam and keep runnin'!
+          <p>
+            It looks like you're visiting this page on a mobile but this
+            experiment is optimised for desktop/laptop! 😢
           </p>
-          <div id="loading">Loading...</div>
-          <section>
-            <button class="options" disabled><img src="real.gif" /></button>
-            <button class="options" disabled><img src="virtual.gif" /></button>
-          </section>
         </section>
       </section>
     </main>
 
-    <div id="ThreeJS"></div>
+    <main class="desktop">
+      <section class="intro-block">
+        <section class="intro">
+          <section class="content">
+            <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
+            <p id="intro-text" style="display: none">
+              Choose between the real or virtual trail, place yourself in front
+              of your webcam and keep runnin'!
+            </p>
+            <div id="loading">Loading...</div>
+            <section>
+              <button class="options" disabled><img src="real.gif" /></button>
+              <button class="options" disabled>
+                <img src="virtual.gif" />
+              </button>
+            </section>
+          </section>
+        </section>
+      </section>
 
-    <div id="player"></div>
+      <div id="ThreeJS"></div>
 
-    <div id="main" style="display:none">
-      <video
-        id="video"
-        playsinline
-        style=" -moz-transform: scaleX(-1);
+      <div id="player"></div>
+
+      <div id="main" style="display:none">
+        <video
+          id="video"
+          playsinline
+          style=" -moz-transform: scaleX(-1);
         -o-transform: scaleX(-1);
         -webkit-transform: scaleX(-1);
         transform: scaleX(-1);
         display: none;
         "
-      ></video>
-      <canvas id="output"></canvas>
-    </div>
+        ></video>
+        <canvas id="output"></canvas>
+      </div>
+    </main>
 
     <script>
       function initVideo() {
