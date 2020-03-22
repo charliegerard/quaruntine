@@ -2,10 +2,15 @@
 <html>
   <head>
     <title>PoseNet - Camera Feed Demo</title>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.1.2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.2/dat.gui.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -14,9 +19,16 @@
       Loading the model...
     </div>
 
-    <section id="buttons">
-      <!-- <button id="play-button">Play</button> -->
-      <!-- <button id="pause-button">Pause</button> -->
+    <section class="intro">
+      <section class="content">
+        <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
+        <!-- <p>Runnin' in quarantine...</p> -->
+        <p>
+          Place yourself in front of your webcam and run to explore real or
+          virtual trails.
+        </p>
+        <button class="start-button">I'm ready!</button>
+      </section>
     </section>
 
     <div id="player"></div>
@@ -42,6 +54,12 @@
     <script src="index.js"></script>
 
     <script>
+      const startButton = document.getElementsByClassName("start-button")[0];
+      startButton.onclick = () => initVideo();
+
+      function initVideo() {
+        myFunction();
+      }
       function myFunction() {
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement("script");
@@ -59,11 +77,11 @@
       var player;
       function onYouTubeIframeAPIReady() {
         player = new YT.Player("player", {
-          // height: "390",
-          // width: "640",
           // videoId: "K_K_EHDaSew",
           videoId: "oSmUI3m2kLk",
           playerVars: {
+            start: 25,
+            // autoplay: 0, // Auto-play the video on load
             autoplay: 1, // Auto-play the video on load
             controls: 1, // Show pause/play buttons in player
             showinfo: 0, // Hide the video title
@@ -74,20 +92,17 @@
             iv_load_policy: 3, // Hide the Video Annotations
             autohide: 0, // Hide video controls when playing
             mute: 1
+          },
+          events: {
+            onReady: onPlayerReady
+            // onStateChange: onPlayerStateChange
           }
-          // events: {
-          //   // onReady: onPlayerReady
-          //   // onStateChange: onPlayerStateChange
-          // }
         });
       }
 
-      // 4. The API will call this function when the video player is ready.
-      // function onPlayerReady(event) {
-      //   event.target.playVideo();
-      // }
-
-      myFunction();
+      function onPlayerReady() {
+        player.setPlaybackRate(2);
+      }
     </script>
   </body>
 </html>

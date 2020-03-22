@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hoverboard game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/103/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
+    <script src="js/noiseSimplex.js"></script>
+    <script src="js/postprocessing/CopyShader.js"></script>
+    <script src="js/postprocessing/EffectComposer.js"></script>
+    <script src="js/postprocessing/ShaderPass.js"></script>
+    <script src="js/OBJLoader.js"></script>
+    <script src="js/MTLLoader.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Permanent+Marker|Teko:400,600,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="game">
+      <div class="score-container">
+        <div id="score"></div>
+      </div>
+      <div id="ThreeJS"></div>
+      <div class="counter"></div>
+    </section>
+    <!-- <audio src="sound/explode.mp3" preload="auto" id="explode_sound"></audio> -->
+
+    <script src="index.js"></script>
+  </body>
+</html>
