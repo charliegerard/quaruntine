@@ -235,11 +235,14 @@ navigator.getUserMedia =
 
 bindPage();
 
-// document.getElementsByClassName("start-button")[0].onclick = () => {
-document.getElementsByClassName("options").onclick = () => {
+document.getElementsByClassName("options")[0].onclick = () => {
   sound.play();
-  // bindPage();
   initVideo();
+  document.getElementsByTagName("main")[0].classList.add("fade-out");
+};
+
+document.getElementsByClassName("options")[1].onclick = () => {
+  sound.play();
 
   document.getElementsByTagName("main")[0].style.display = "none";
 };

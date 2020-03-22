@@ -7,7 +7,6 @@ var cubes = [];
 var trees = [];
 var crash = false;
 var score = 0;
-// var scoreText = document.getElementById("score");
 var id = 0;
 var crashId = " ";
 var lastCrashId = " ";
@@ -229,7 +228,6 @@ function makeRandomCube() {
   let material = new THREE.MeshPhongMaterial({
     color: 0xffffff,
     specular: 0x009900,
-    // shininess: 30,
     flatShading: true
   });
   let rockGeometry = new THREE.Geometry().fromBufferGeometry(

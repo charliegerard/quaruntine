@@ -6,7 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.1.2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/103/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
+    <script src="forest/js/OBJLoader.js"></script>
+    <script src="forest/js/MTLLoader.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Permanent+Marker|Teko:400,600,700"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,500,600,700,800,900&display=swap"
       rel="stylesheet"
@@ -23,14 +30,13 @@
         <section class="content">
           <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
           <p>
-            Place yourself in front of your webcam and run to explore real or
-            virtual trails.
+            Choose between the real or virtual trail, place yourself in front of
+            your webcam and keep runnin'!
           </p>
           <section>
-            <div class="options"><img src="real.gif" /></div>
-            <div class="options"><img src="virtual.gif" /></div>
+            <button class="options"><img src="real.gif" /></button>
+            <button class="options"><img src="virtual.gif" /></button>
           </section>
-          <!-- <button class="start-button">I'm ready!</button> -->
         </section>
       </section>
     </main>
@@ -62,16 +68,11 @@
         myFunction();
       }
       function myFunction() {
-        // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement("script");
-
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName("script")[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       }
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
 
       // 4K Virtual Forest Walk along Middle Fork Trail at Snoqualmie region. - oSmUI3m2kLk
       // 4K Virtual Forest Walk - 5 Hours Walking in the Woods, Grand Ridge Trail, Issaquah, WA - rq54xLahoiA
@@ -82,27 +83,22 @@
           videoId: "oSmUI3m2kLk",
           playerVars: {
             start: 25,
-            // autoplay: 0, // Auto-play the video on load
             autoplay: 1, // Auto-play the video on load
             controls: 1, // Show pause/play buttons in player
-            showinfo: 0, // Hide the video title
+            showinfo: 1, // Hide the video title
             modestbranding: 1, // Hide the Youtube Logo
-            // loop: 1,            // Run the video in a loop
-            // fs: 0,              // Hide the full screen button
+            fs: 1, // Hide the full screen button
             cc_load_policy: 0, // Hide closed captions
             iv_load_policy: 3, // Hide the Video Annotations
-            autohide: 0, // Hide video controls when playing
+            autohide: 1, // Hide video controls when playing
             mute: 1
           },
           events: {
-            onReady: onPlayerReady
-            // onStateChange: onPlayerStateChange
+            onReady: () => {
+              player.setPlaybackRate(2);
+            }
           }
         });
-      }
-
-      function onPlayerReady() {
-        player.setPlaybackRate(2);
       }
     </script>
   </body>
