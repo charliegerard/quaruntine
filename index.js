@@ -166,7 +166,7 @@ function detectPoseInRealTime(video, net) {
           rightArmUp =
             rightWrist.position.y < rightElbow.position.y ? true : false;
 
-          if (leftWrist.position.x > 450) {
+          if (leftWrist.position.x > 550) {
             if (currentBackground === "real") {
               triggerVirtual();
             } else {
@@ -239,14 +239,12 @@ document.getElementsByClassName("options")[0].onclick = () => {
   realForestSelected = true;
   realForestLoaded = true;
   currentBackground = "real";
-  document.getElementsByClassName("switcher")[0].style.display = "block";
 };
 
 document.getElementsByClassName("options")[1].onclick = () => {
   sound.play();
   draw();
   currentBackground = "virtual";
-  document.getElementsByClassName("switcher")[0].style.display = "block";
   document.getElementById("ThreeJS").style.display = "block";
   document.getElementById("player").style.display = "none";
 
