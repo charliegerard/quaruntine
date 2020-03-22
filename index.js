@@ -227,7 +227,9 @@ navigator.getUserMedia =
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
 
-bindPage();
+window.onload = () => {
+  bindPage();
+};
 
 document.getElementsByClassName("options")[0].onclick = () => {
   sound.play();
