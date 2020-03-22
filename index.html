@@ -52,17 +52,11 @@
       <canvas id="output"></canvas>
     </div>
 
-    <section class="switcher">
-      <h1>SWITCH</h1>
-    </section>
-
-    <script src="demo_util.js"></script>
-    <script src="index.js"></script>
-
     <script>
       function initVideo() {
         myFunction();
       }
+
       function myFunction() {
         var tag = document.createElement("script");
         tag.src = "https://www.youtube.com/iframe_api";
@@ -79,9 +73,9 @@
           videoId: "oSmUI3m2kLk",
           playerVars: {
             start: 25,
-            autoplay: 0, // Auto-play the video on load
-            controls: 1, // Show pause/play buttons in player
-            showinfo: 1, // Hide the video title
+            autoplay: 1, // Auto-play the video on load
+            controls: 0, // Show pause/play buttons in player
+            showinfo: 0, // Hide the video title
             modestbranding: 1, // Hide the Youtube Logo
             fs: 1, // Hide the full screen button
             cc_load_policy: 0, // Hide closed captions
@@ -97,5 +91,7 @@
         });
       }
     </script>
+    <script src="demo_util.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>

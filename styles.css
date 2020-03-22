@@ -119,7 +119,7 @@ canvas#output {
 
 // 3D
 
-.ThreeJS {
+#ThreeJS {
   display: block;
   width: 100%;
   margin: 0 auto;

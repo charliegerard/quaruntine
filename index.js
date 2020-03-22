@@ -166,12 +166,20 @@ function detectPoseInRealTime(video, net) {
           rightArmUp =
             rightWrist.position.y < rightElbow.position.y ? true : false;
 
+          if (leftWrist.position.x > 450) {
+            if (currentBackground === "real") {
+              triggerVirtual();
+            } else {
+              triggerReal();
+            }
+          }
+
           if (leftArmUp && rightArmUp) {
-            if (player !== undefined) {
+            if (player !== undefined && player.playVideo) {
               player.playVideo();
             }
           } else {
-            if (player !== undefined && YT.PlayerState.PLAYING) {
+            if (player !== undefined && player.pauseVideo) {
               player.pauseVideo();
             }
           }
@@ -220,15 +228,14 @@ navigator.getUserMedia =
   navigator.mozGetUserMedia;
 
 bindPage();
-// window.onload = () => {
-//   initVideo();
-// };
 
 document.getElementsByClassName("options")[0].onclick = () => {
   sound.play();
-  // initVideo();
+  initVideo();
 
   document.getElementsByTagName("main")[0].classList.add("fade-out");
+  document.getElementById("player").style.display = "block";
+  document.getElementById("ThreeJS").style.display = "none";
   realForestSelected = true;
   realForestLoaded = true;
   currentBackground = "real";
@@ -237,11 +244,11 @@ document.getElementsByClassName("options")[0].onclick = () => {
 
 document.getElementsByClassName("options")[1].onclick = () => {
   sound.play();
-  setup();
-  init();
   draw();
   currentBackground = "virtual";
   document.getElementsByClassName("switcher")[0].style.display = "block";
+  document.getElementById("ThreeJS").style.display = "block";
+  document.getElementById("player").style.display = "none";
 
   document.getElementsByTagName("main")[0].style.display = "none";
   virtualForestSelected = true;
@@ -249,38 +256,32 @@ document.getElementsByClassName("options")[1].onclick = () => {
 
 // switching
 
-document.getElementsByClassName("switcher")[0].onclick = () => {
-  if (currentBackground === "real") {
-    if (virtualForestLoaded) {
-      document.getElementById("ThreeJS").style.display = "block";
-    } else {
-      setup();
-      init();
-      draw();
-    }
-    player.pauseVideo();
-    document.getElementById("player").style.display = "none";
-    currentBackground = "virtual";
-    return;
+function triggerVirtual() {
+  if (virtualForestLoaded) {
+    document.getElementById("ThreeJS").style.display = "block";
+  } else {
+    draw();
   }
+  draw();
+  player.pauseVideo();
+  document.getElementById("player").style.display = "none";
+  currentBackground = "virtual";
+  return;
+}
 
-  if (currentBackground === "virtual") {
-    if (realForestLoaded) {
-      document.getElementById("player").style.display = "block";
-      player.playVideo();
-    } else {
-      initVideo();
-    }
-    document.getElementById("ThreeJS").style.display = "none";
-    currentBackground = "real";
-    return;
+function triggerReal() {
+  if (realForestLoaded) {
+    document.getElementById("player").style.display = "block";
+    player.playVideo();
+  } else {
+    initVideo();
   }
-};
+  document.getElementById("ThreeJS").style.display = "none";
+  currentBackground = "real";
+  return;
+}
 
 // 3D ---------------------------
-
-/* 3D skateboard model from https://poly.google.com/view/7Dfn4VtTCWY */
-/* Rock model from https://poly.google.com/view/dmRuyy1VXEv */
 
 var container;
 var collideMeshList = [];
@@ -307,13 +308,8 @@ var zOrientation = 0;
 // var sound;
 var glitchPass, composer;
 
-// setup();
-// init();
-// draw();
-
 function setup() {
   virtualForestLoaded = true;
-  // setupClouds();
   setupRockModel();
   setupScene();
   setupPlane();
@@ -339,27 +335,6 @@ function setupScene() {
 
   document.body.appendChild(renderer.domElement);
 }
-
-// function setupClouds() {
-//   var mtlLoader = new THREE.MTLLoader();
-//   let cloud;
-//   mtlLoader.setPath("assets/");
-//   mtlLoader.load("cloud/cloud.mtl", function(materials) {
-//     materials.preload();
-
-//     var objLoader = new THREE.OBJLoader();
-//     objLoader.setMaterials(materials);
-//     objLoader.setPath("forest/assets/");
-//     objLoader.load("cloud/cloud.obj", function(object) {
-//       cloud = object;
-//       cloud.position.set(1, -1, -10);
-//       cloud.scale.set(10, 10, 10);
-
-//       scene.add(cloud);
-//       renderer.render(scene, camera);
-//     });
-//   });
-// }
 
 function setupRockModel() {
   var loader = new THREE.OBJLoader();
@@ -613,3 +588,8 @@ function setupInitialRocks() {
 
 gameStarted = true;
 // draw();
+
+setup();
+init();
+document.getElementById("ThreeJS").style.display = "block";
+document.getElementById("player").style.display = "none";
