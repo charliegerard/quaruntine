@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PoseNet - Camera Feed Demo</title>
+    <title>Quaruntine - Keep runnin on quarantine</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"></script>
@@ -11,31 +11,24 @@
     <script src="forest/js/OBJLoader.js"></script>
     <script src="forest/js/MTLLoader.js"></script>
     <link
-      href="https://fonts.googleapis.com/css?family=Permanent+Marker|Teko:400,600,700"
-      rel="stylesheet"
-    />
-    <link
       href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,500,600,700,800,900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="info" style="display:none"></div>
-    <!-- <div id="loading">
-      Loading the model...
-    </div> -->
     <main>
       <section class="intro">
         <section class="content">
           <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
-          <p>
+          <p id="intro-text" style="display: none">
             Choose between the real or virtual trail, place yourself in front of
             your webcam and keep runnin'!
           </p>
+          <div id="loading">Loading...</div>
           <section>
-            <button class="options"><img src="real.gif" /></button>
-            <button class="options"><img src="virtual.gif" /></button>
+            <button class="options" disabled><img src="real.gif" /></button>
+            <button class="options" disabled><img src="virtual.gif" /></button>
           </section>
         </section>
       </section>
@@ -59,9 +52,10 @@
       <canvas id="output"></canvas>
     </div>
 
-    <div id="video">
-      <div id="player"></div>
-    </div>
+    <section class="switcher">
+      <h1>SWITCH</h1>
+    </section>
+
     <script src="demo_util.js"></script>
     <script src="index.js"></script>
 

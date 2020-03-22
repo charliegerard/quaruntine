@@ -4,6 +4,11 @@ let map;
 let leftArmUp = false;
 let rightArmUp = false;
 let video;
+let realForestSelected = false;
+let virtualForestSelected = false;
+let virtualForestLoaded = false;
+let realForestLoaded = false;
+let currentBackground = "";
 
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
@@ -23,7 +28,6 @@ function setupSound() {
   sound = new Howl({
     src: ["forest.m4a"],
     loop: true,
-    // autoplay: true,
     volume: 1,
     preload: true
   });
@@ -91,23 +95,6 @@ function setupGui(cameras, net) {
   if (cameras.length > 0) {
     guiState.camera = cameras[0].deviceId;
   }
-
-  // const gui = new dat.GUI({ width: 300 });
-  // let input = gui.addFolder("Input");
-  // Architecture: there are a few PoseNet models varying in size and
-  // accuracy. 1.01 is the largest, but will be the slowest. 0.50 is the
-  // fastest, but least accurate.
-  // Output stride:  Internally, this parameter affects the height and width of
-  // the layers in the neural network. The lower the value of the output stride
-  // the higher the accuracy but slower the speed, the higher the value the
-  // faster the speed but lower the accuracy.
-  // input.add(guiState.input, "outputStride", [8, 16, 32]);
-  // Image scale factor: What to scale the image by before feeding it through
-  // the network.
-  // input
-  //   .add(guiState.input, "imageScaleFactor")
-  //   .min(0.2)
-  //   .max(1.0);
 }
 
 function detectPoseInRealTime(video, net) {
@@ -205,10 +192,12 @@ function detectPoseInRealTime(video, net) {
 
 async function bindPage() {
   // Load the PoseNet model weights with architecture 0.75
-  const net = await posenet.load(0.75);
 
-  // document.getElementById("loading").style.display = "none";
-  // document.getElementById("main").style.display = "block";
+  const net = await posenet.load(0.75);
+  document.getElementsByClassName("options")[0].disabled = false;
+  document.getElementsByClassName("options")[1].disabled = false;
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("intro-text").style.display = "block";
 
   let video;
 
@@ -225,7 +214,6 @@ async function bindPage() {
 
   setupGui([], net);
   detectPoseInRealTime(video, net);
-  // sound.play();
 }
 
 navigator.getUserMedia =
@@ -239,6 +227,9 @@ document.getElementsByClassName("options")[0].onclick = () => {
   sound.play();
   initVideo();
   document.getElementsByTagName("main")[0].classList.add("fade-out");
+  realForestSelected = true;
+  realForestLoaded = true;
+  currentBackground = "real";
 };
 
 document.getElementsByClassName("options")[1].onclick = () => {
@@ -246,8 +237,40 @@ document.getElementsByClassName("options")[1].onclick = () => {
   setup();
   init();
   draw();
+  currentBackground = "virtual";
 
   document.getElementsByTagName("main")[0].style.display = "none";
+  virtualForestSelected = true;
+};
+
+// switching
+
+document.getElementsByClassName("switcher")[0].onclick = () => {
+  if (currentBackground === "real") {
+    if (virtualForestLoaded) {
+      document.getElementById("ThreeJS").style.display = "block";
+    } else {
+      setup();
+      init();
+      draw();
+    }
+    player.pauseVideo();
+    document.getElementById("player").style.display = "none";
+    currentBackground = "virtual";
+    return;
+  }
+
+  if (currentBackground === "virtual") {
+    if (realForestLoaded) {
+      document.getElementById("player").style.display = "block";
+      player.playVideo();
+    } else {
+      initVideo();
+    }
+    document.getElementById("ThreeJS").style.display = "none";
+    currentBackground = "real";
+    return;
+  }
 };
 
 // 3D ---------------------------
@@ -285,7 +308,8 @@ var glitchPass, composer;
 // draw();
 
 function setup() {
-  setupClouds();
+  virtualForestLoaded = true;
+  // setupClouds();
   setupRockModel();
   setupScene();
   setupPlane();
@@ -312,26 +336,26 @@ function setupScene() {
   document.body.appendChild(renderer.domElement);
 }
 
-function setupClouds() {
-  var mtlLoader = new THREE.MTLLoader();
-  let cloud;
-  mtlLoader.setPath("assets/");
-  mtlLoader.load("cloud/cloud.mtl", function(materials) {
-    materials.preload();
+// function setupClouds() {
+//   var mtlLoader = new THREE.MTLLoader();
+//   let cloud;
+//   mtlLoader.setPath("assets/");
+//   mtlLoader.load("cloud/cloud.mtl", function(materials) {
+//     materials.preload();
 
-    var objLoader = new THREE.OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.setPath("forest/assets/");
-    objLoader.load("cloud/cloud.obj", function(object) {
-      cloud = object;
-      cloud.position.set(1, -1, -10);
-      cloud.scale.set(10, 10, 10);
+//     var objLoader = new THREE.OBJLoader();
+//     objLoader.setMaterials(materials);
+//     objLoader.setPath("forest/assets/");
+//     objLoader.load("cloud/cloud.obj", function(object) {
+//       cloud = object;
+//       cloud.position.set(1, -1, -10);
+//       cloud.scale.set(10, 10, 10);
 
-      scene.add(cloud);
-      renderer.render(scene, camera);
-    });
-  });
-}
+//       scene.add(cloud);
+//       renderer.render(scene, camera);
+//     });
+//   });
+// }
 
 function setupRockModel() {
   var loader = new THREE.OBJLoader();
