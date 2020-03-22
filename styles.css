@@ -1,6 +1,18 @@
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
+  background: rgb(254, 242, 242);
+  background: radial-gradient(
+    circle,
+    rgba(254, 242, 242, 1) 0%,
+    rgba(194, 238, 252, 1) 42%,
+    rgba(140, 217, 250, 1) 82%,
+    rgba(128, 234, 255, 1) 100%
+  );
 }
 
 main {
@@ -57,11 +69,11 @@ main {
 .content button {
   border: 1px solid white;
   padding: 0;
-  cursor: pointer;
 }
 
-.content button::hover {
-  border: 3px solid white;
+.content button:hover {
+  /* border: 5px solid white; */
+  cursor: pointer;
 }
 
 .options {
@@ -99,9 +111,10 @@ canvas#output {
 .switcher {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 2em;
   z-index: 20;
   color: white;
+  display: none;
 }
 
 // 3D

@@ -191,8 +191,6 @@ function detectPoseInRealTime(video, net) {
 }
 
 async function bindPage() {
-  // Load the PoseNet model weights with architecture 0.75
-
   const net = await posenet.load(0.75);
   document.getElementsByClassName("options")[0].disabled = false;
   document.getElementsByClassName("options")[1].disabled = false;
@@ -222,14 +220,19 @@ navigator.getUserMedia =
   navigator.mozGetUserMedia;
 
 bindPage();
+// window.onload = () => {
+//   initVideo();
+// };
 
 document.getElementsByClassName("options")[0].onclick = () => {
   sound.play();
-  initVideo();
+  // initVideo();
+
   document.getElementsByTagName("main")[0].classList.add("fade-out");
   realForestSelected = true;
   realForestLoaded = true;
   currentBackground = "real";
+  document.getElementsByClassName("switcher")[0].style.display = "block";
 };
 
 document.getElementsByClassName("options")[1].onclick = () => {
@@ -238,6 +241,7 @@ document.getElementsByClassName("options")[1].onclick = () => {
   init();
   draw();
   currentBackground = "virtual";
+  document.getElementsByClassName("switcher")[0].style.display = "block";
 
   document.getElementsByTagName("main")[0].style.display = "none";
   virtualForestSelected = true;
@@ -473,7 +477,9 @@ function update() {
       scene.remove(cubes[i]);
       cubes.splice(i, 1);
     } else {
-      cubes[i].position.y -= 0.05;
+      if (leftArmUp && rightArmUp) {
+        cubes[i].position.y -= 0.05;
+      }
     }
   }
 
@@ -482,7 +488,9 @@ function update() {
       scene.remove(trees[i]);
       trees.splice(i, 1);
     } else {
-      trees[i].position.y -= 0.05;
+      if (leftArmUp && rightArmUp) {
+        trees[i].position.y -= 0.05;
+      }
     }
   }
 }
@@ -515,9 +523,6 @@ function makeRandomCube() {
   var object = new THREE.Mesh(rockGeometry, material);
   object.receiveShadow = true;
   object.castShadow = true;
-  //   object.position.x = getRandomArbitrary(-2, 2);
-  //   object.position.x = getRandomArbitrary(-10, -2) || getRandomArbitrary(2, 10);
-
   object.position.x = getRandomArbitrary(-10, 10, "x");
   object.position.y = getRandomArbitrary(50, 0);
   object.position.z = 0;
@@ -527,9 +532,6 @@ function makeRandomCube() {
 
   cubes.push(object);
   object.name = "box_" + id;
-  id++;
-  collideMeshList.push(object);
-
   scene.add(object);
 }
 
