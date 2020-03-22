@@ -7,7 +7,7 @@ var cubes = [];
 var trees = [];
 var crash = false;
 var score = 0;
-var scoreText = document.getElementById("score");
+// var scoreText = document.getElementById("score");
 var id = 0;
 var crashId = " ";
 var lastCrashId = " ";
@@ -24,36 +24,19 @@ let scene,
 let skateboard, rock, rockMesh;
 var gameStarted = false;
 var zOrientation = 0;
-let counter = 3;
 var sound;
 var glitchPass, composer;
 
 setup();
 init();
-draw();
+// draw();
 
 function setup() {
-  setupNoise();
   setupClouds();
   setupRockModel();
   setupScene();
-  //   setupSound();
   setupPlane();
   setupLights();
-}
-
-function setupSound() {
-  sound = new Howl({
-    src: ["assets/delorean-dynamite-long-2.m4a"],
-    loop: true
-  });
-}
-
-function setupNoise() {
-  xZoom = 7;
-  yZoom = 15;
-  noiseStrength = 3;
-  simplex = new SimplexNoise();
 }
 
 function setupScene() {
@@ -89,7 +72,6 @@ function setupClouds() {
     objLoader.load("cloud/cloud.obj", function(object) {
       cloud = object;
       cloud.position.set(1, -1, -10);
-      //   spaceship.rotation.set(1.7, 0, 0);
       cloud.scale.set(10, 10, 10);
 
       scene.add(cloud);
@@ -118,12 +100,20 @@ function setupRockModel() {
         rockMesh.material = material;
       }
     });
+    if (rock) {
+      for (let i = 0; i < 200; i++) {
+        setupInitialTrees();
+      }
+      for (let y = 0; y < 100; y++) {
+        setupInitialRocks();
+      }
+    }
   });
 }
 
 function setupPlane() {
   let side = 120;
-  geometry = new THREE.PlaneGeometry(40, 40, side, side);
+  geometry = new THREE.PlaneGeometry(100, 100, side, side);
 
   let material = new THREE.MeshStandardMaterial({
     // color: new THREE.Color("rgb(16,28,89)")
@@ -197,7 +187,7 @@ function update() {
     makeRandomCube();
   }
 
-  if (Math.random() < 0.03 && trees.length < 100) {
+  if (Math.random() < 0.03 && trees.length < 500) {
     makeRandomTrees();
   }
 
@@ -205,36 +195,34 @@ function update() {
     if (cubes[i].position.y < -20) {
       scene.remove(cubes[i]);
       cubes.splice(i, 1);
-      collideMeshList.splice(i, 1);
-      //if(!crash){
-      score += 1;
-      //}
     } else {
       cubes[i].position.y -= 0.05;
     }
   }
 
   for (i = 0; i < trees.length; i++) {
-    if (trees[i].position.y < -20) {
-      // scene.remove(cubes[i]);
+    if (trees[i].position.y < -30) {
       scene.remove(trees[i]);
-      // cubes.splice(i, 1);
       trees.splice(i, 1);
-      // collideMeshList.splice(i, 1);
-      //if(!crash){
-      //   score += 1;
-      //}
     } else {
-      //   cubes[i].position.y -= 0.05;
       trees[i].position.y -= 0.05;
     }
   }
-
-  scoreText.innerText = "Score:" + Math.floor(score);
 }
 
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
+function getRandomArbitrary(min, max, axis) {
+  let random;
+  if (axis === "x") {
+    random = Math.random() * (max - min) + min;
+
+    if (random > -2.7 && random < 2.7) {
+      getRandomArbitrary(min, max, axis);
+    } else {
+      return random;
+    }
+  } else {
+    return Math.random() * (max - min) + min;
+  }
 }
 
 function makeRandomCube() {
@@ -253,7 +241,8 @@ function makeRandomCube() {
   object.castShadow = true;
   //   object.position.x = getRandomArbitrary(-2, 2);
   //   object.position.x = getRandomArbitrary(-10, -2) || getRandomArbitrary(2, 10);
-  object.position.x = getRandomArbitrary(-10, 10);
+
+  object.position.x = getRandomArbitrary(-10, 10, "x");
   object.position.y = getRandomArbitrary(50, 0);
   object.position.z = 0;
 
@@ -281,8 +270,8 @@ function makeRandomTrees() {
       spaceship = object;
       spaceship.position.set(1, -10, 4);
       spaceship.rotation.set(1.7, 0, 0);
-      spaceship.position.x = getRandomArbitrary(-10, 10);
-      spaceship.position.y = getRandomArbitrary(50, 0);
+      spaceship.position.x = getRandomArbitrary(-20, 20, "x");
+      spaceship.position.y = getRandomArbitrary(100, 20);
 
       spaceship.scale.set(3, 3, 3);
 
@@ -294,12 +283,55 @@ function makeRandomTrees() {
   });
 }
 
+function setupInitialTrees() {
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setPath("assets/");
+  mtlLoader.load("pine/materials.mtl", function(materials) {
+    materials.preload();
+
+    var objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.setPath("assets/");
+    objLoader.load("pine/model.obj", function(object) {
+      tree = object;
+      tree.position.set(1, -10, 4);
+      tree.rotation.set(1.7, 0, 0);
+      tree.position.x = getRandomArbitrary(-20, 20, "x");
+      tree.position.y = getRandomArbitrary(50, -20);
+
+      tree.scale.set(3, 3, 3);
+
+      trees.push(tree);
+
+      scene.add(tree);
+      renderer.render(scene, camera);
+    });
+  });
+}
+
+function setupInitialRocks() {
+  let material = new THREE.MeshPhongMaterial({
+    color: 0xffffff,
+    specular: 0x009900,
+    flatShading: true
+  });
+  let rockGeometry = new THREE.Geometry().fromBufferGeometry(
+    rock.children[0].geometry
+  );
+
+  var object = new THREE.Mesh(rockGeometry, material);
+  object.receiveShadow = true;
+  object.castShadow = true;
+  object.position.x = getRandomArbitrary(-10, 10, "x");
+  object.position.y = getRandomArbitrary(50, -20);
+  object.position.z = 0;
+
+  object.scale.set(0.4, 0.4, 0.4);
+  object.rotation.set(2, 1.58, -0.5);
+
+  cubes.push(object);
+  scene.add(object);
+}
+
 gameStarted = true;
 draw();
-
-let interval;
-
-window.onload = () => {
-  //   const connectButton = document.getElementById("connect");
-  var previousValue;
-};

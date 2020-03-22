@@ -17,6 +17,20 @@ function isMobile() {
   return isAndroid() || isiOS();
 }
 
+let sound;
+
+function setupSound() {
+  sound = new Howl({
+    src: ["forest.m4a"],
+    loop: true,
+    // autoplay: true,
+    volume: 1,
+    preload: true
+  });
+}
+
+setupSound();
+
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
@@ -193,8 +207,8 @@ async function bindPage() {
   // Load the PoseNet model weights with architecture 0.75
   const net = await posenet.load(0.75);
 
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("main").style.display = "block";
+  // document.getElementById("loading").style.display = "none";
+  // document.getElementById("main").style.display = "block";
 
   let video;
 
@@ -211,11 +225,21 @@ async function bindPage() {
 
   setupGui([], net);
   detectPoseInRealTime(video, net);
-  // video = forestVideo.contentWindow.document.getElementsByTagName("video")[0];
+  // sound.play();
 }
 
 navigator.getUserMedia =
   navigator.getUserMedia ||
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
-// bindPage();
+
+bindPage();
+
+// document.getElementsByClassName("start-button")[0].onclick = () => {
+document.getElementsByClassName("options").onclick = () => {
+  sound.play();
+  // bindPage();
+  initVideo();
+
+  document.getElementsByTagName("main")[0].style.display = "none";
+};

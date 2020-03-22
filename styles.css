@@ -1,11 +1,24 @@
+main {
+  background-image: url("quaruntine.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 .intro {
-  background: pink;
+  /* background: pink; */
   width: 100%;
   height: 100%;
   display: flex;
   position: absolute;
   justify-content: center;
   align-items: center;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .intro .content {
@@ -21,14 +34,30 @@
 
 .content h1 {
   color: white;
-  font-weight: 400;
+  font-weight: 800;
   text-transform: uppercase;
+  font-size: 4em;
+}
+
+.content p {
+  color: white;
 }
 
 .content button {
   border: none;
   padding: 0.5em 1em;
   cursor: pointer;
+}
+
+.options {
+  width: fit-content;
+  display: inline-block;
+  margin-right: 3em;
+}
+
+.options img {
+  width: 10em;
+  display: block;
 }
 
 .footer {

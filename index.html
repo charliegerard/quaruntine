@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.1.2"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.2/dat.gui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
     <link
       href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,500,600,700,800,900&display=swap"
       rel="stylesheet"
@@ -15,21 +15,25 @@
   </head>
   <body>
     <div id="info" style="display:none"></div>
-    <div id="loading">
+    <!-- <div id="loading">
       Loading the model...
-    </div>
-
-    <section class="intro">
-      <section class="content">
-        <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
-        <!-- <p>Runnin' in quarantine...</p> -->
-        <p>
-          Place yourself in front of your webcam and run to explore real or
-          virtual trails.
-        </p>
-        <button class="start-button">I'm ready!</button>
+    </div> -->
+    <main>
+      <section class="intro">
+        <section class="content">
+          <h1><span>🏃 </span>Qua*run*tine<span> 🏃‍♀</span></h1>
+          <p>
+            Place yourself in front of your webcam and run to explore real or
+            virtual trails.
+          </p>
+          <section>
+            <div class="options"><img src="real.gif" /></div>
+            <div class="options"><img src="virtual.gif" /></div>
+          </section>
+          <!-- <button class="start-button">I'm ready!</button> -->
+        </section>
       </section>
-    </section>
+    </main>
 
     <div id="player"></div>
 
@@ -54,9 +58,6 @@
     <script src="index.js"></script>
 
     <script>
-      const startButton = document.getElementsByClassName("start-button")[0];
-      startButton.onclick = () => initVideo();
-
       function initVideo() {
         myFunction();
       }
