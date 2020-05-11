@@ -6,7 +6,11 @@ While PoseNet is detecting that the user is running (detects that the position o
 
 When the user is not doing a "running pose", the animations stop.
 
-## Demo
+[Live demo](https://quaruntine.netlify.app)
+
+## Status
+
+Working but not refactored.
 
 ## How to run
 
